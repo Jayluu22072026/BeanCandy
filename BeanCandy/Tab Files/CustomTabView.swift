@@ -12,7 +12,9 @@ struct CustomTabView: View {
     var body: some View {
         TabView(selection: $selectedIndex) {
             Tab("Home", systemImage: "house", value: 0) {
-                HomeView()
+                NavigationStack{
+                    FlavoursView()
+                }
             }
             
             Tab("Combo", systemImage: "square.grid.2x2", value: 1) {
