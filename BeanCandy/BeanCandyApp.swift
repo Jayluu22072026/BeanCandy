@@ -11,7 +11,9 @@ import SwiftUI
 struct BeanCandyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack{
+                OnboardingView()
+            }
         }
     }
 }
