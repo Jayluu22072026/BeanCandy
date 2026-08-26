@@ -17,7 +17,7 @@ class BeansViewModel {
     func loadBeans() async {
         isLoading = true
         guard let testUrl = API.finalUrl(for: .beans) else {
-            errorMessage = "Invalid url"
+            errorMessage = errorMessage ?? "Invalid URL"
             isLoading = false
             return
         }

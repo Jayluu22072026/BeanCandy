@@ -1,8 +1,8 @@
 //
-//  TestEnumFile.swift
+//  APIEnum.swift
 //  BeanCandy
 //
-//  Created by Jayluu's Mac on 25/08/26.
+//  Created by Jayluu's Mac on 26/08/26.
 //
 
 import Foundation
@@ -27,4 +27,16 @@ enum API {
         return URL(string: API.baseURL + endPoint.path)
     }
 }
+
+/*
+ 
+ API's that will be used in this app
+ 
+ BEANS: https://jellybellywikiapi.onrender.com/api/beans
+ FACTS: https://jellybellywikiapi.onrender.com/api/facts
+ COMBINATIONS: https://jellybellywikiapi.onrender.com/api/combinations
+ RECIPES: https://jellybellywikiapi.onrender.com/api/recipes
+ 
+ */
+
 
