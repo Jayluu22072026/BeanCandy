@@ -11,7 +11,7 @@ struct CustomTabView: View {
     @State var selectedIndex: Int = 0
     var body: some View {
         TabView(selection: $selectedIndex) {
-            Tab("Home", systemImage: "house", value: 0) {
+            Tab("Flavors", systemImage: "house", value: 0) {
                 NavigationStack{
                     FlavoursView()
                 }
