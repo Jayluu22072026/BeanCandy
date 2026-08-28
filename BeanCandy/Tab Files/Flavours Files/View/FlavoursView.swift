@@ -7,45 +7,58 @@
 
 import SwiftUI
 
+// now only thing left in this view is the list arrangement thinking
+
+struct FlavourSection: Identifiable {
+    var id = UUID()
+    let category: String
+    let flavours: [String] // we will make this into a dictionary once i have added the colors
+}
+
 struct FlavoursView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var searchText: String = ""
-    var chipArrays : [String] = [
-        "All",
-        "Favourites",
-        "Fruit",
-        "Citrus",
-        "Sweet",
-        "Spice",
-        "Soda"
-    ]
-    var fruitArray: [String] = [
-        "Very Cherry",
-        "Juicy Pear",
-        "Blueberry",
-        "Green Apple",
-        "Watermelon",
-        "Berry Blue",
-        "Top Banana"
-    ]
-    var citrusArray: [String] = [
-        "Tangerine",
-        "Lemon Drop"
-    ]
-    var sweetArray: [String] = [
-        "Buttered Popcorn",
-        "Toasted Marshmallow",
-        "Coconut",
-        "Cotton Candy"
+    
+    // the all and favourites chips need to be added manually
+    let sectionWiseFlavours: [FlavourSection] = [
+        .init(category: "Fruit", flavours: [
+            "Very Cherry",
+            "Juicy Pear",
+            "Blueberry",
+            "Green Apple",
+            "Watermelon",
+            "Berry Blue",
+            "Top Banana"
+        ]),
+        .init(category: "Citrus", flavours: [
+            "Tangerine",
+            "Lemon Drop"
+        ]),
+        .init(category: "Sweet", flavours: [
+            "Buttered Popcorn",
+            "Toasted Marshmallow",
+            "Coconut",
+            "Cotton Candy"
+        ]),
+        .init(category: "Spice", flavours: [
+            "Sizzling Cinnamon",
+            "Licorice"
+        ]),
+        .init(category: "Soda", flavours: [
+            "Root Beer"
+        ])
     ]
     
-    var spiceArray: [String] = [
-        "Sizzling Cinnamon",
-        "Licorice"
-    ]
-    var sodaArray: [String] = [
-        "Root Beer"
-    ]
+    /*
+     if it is
+     all = 16
+     fav: onlt the fav ones
+     fruit = 7
+     citrus = 2
+     sweet = 4
+     spice = 2
+     soda = 1
+     */
     
     var body: some View {
         ZStack {
@@ -58,14 +71,33 @@ struct FlavoursView: View {
                     
                     filterChipsView
                     
-                    sectionListView(cherryColor: .red, cherryName: "test", sectionName: "test section")
+                    sectionTitleView
                     
+//                    sectionListView(
+//                        cherryColor: .red,
+//                        cherryName: "test",
+//                        sectionName: "test section"
+//                    )
+                    
+                    /*
+                     the list view is going to take  in the type of flavor that is the chip array twice
+                     then it will take in the name of the jelly
+                     and last the color of the jelly
+                     */
                 }
             }
             .scrollIndicators(.hidden)
         }
     }
+}
+
+// MARK: Logic
+extension FlavoursView {
     
+}
+
+// MARK: Variable Views
+extension FlavoursView {
     var flavourTitle: some View {
         Text("Flavours")
             .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8 : Color.c_1C1418)
@@ -87,25 +119,31 @@ struct FlavoursView: View {
         }
     }
     
+    // UI completed, logic yet left out
     var filterChipsView: some View {
-        /*
-        ScrollView(.horizontal) {
-            HStack{
-                filterChip(chipName: "unSelected")
-                filterChipSelected(chipName: "Selected")
-            }
-        }
-        */
-        
         ScrollView(.horizontal){
             HStack {
-                ForEach(chipArrays, id: \.self) { value in
-                    filterChip(chipName: value)
+                filterChip(chipName: "All")
+                filterChip(chipName: "Favourites")
+                ForEach(sectionWiseFlavours) { value in
+                    filterChip(chipName: value.category)
                 }
             }
         }
         .scrollIndicators(.hidden)
     }
+    
+    var sectionTitleView: some View {
+        ForEach(sectionWiseFlavours) { section in
+            Text(section.category)
+                .font(.system(size: 13))
+                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
+        }
+    }
+}
+
+// MARK: Function Views
+extension FlavoursView {
     
     func filterChip(chipName: String) -> some View {
         Text("\(chipName)")
@@ -135,10 +173,6 @@ struct FlavoursView: View {
         sectionName: String
     ) -> some View {
         Group {
-            Text("\(sectionName)".uppercased())
-                .font(.system(size: 13))
-                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
-            
             VStack {
                 individualListDetails(jellyColor: cherryColor, cherryName: cherryName, cherrySectionName: sectionName)
                 Divider()
@@ -177,6 +211,7 @@ struct FlavoursView: View {
         }
     }
     
+    // the left side jelly that we have view
     func jellyView(jellyColor: Color) ->  some View {
         ZStack {
             Group {
@@ -191,11 +226,6 @@ struct FlavoursView: View {
             .rotationEffect(Angle(degrees: -35))
         }
     }
-    
-}
-
-extension FlavoursView {
-    
 }
 
 #Preview {
