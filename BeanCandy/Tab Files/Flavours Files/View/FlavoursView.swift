@@ -70,20 +70,48 @@ struct FlavoursView: View {
                     searchBarView
                     
                     filterChipsView
-                    
-                    sectionTitleView
-                    
-//                    sectionListView(
-//                        cherryColor: .red,
-//                        cherryName: "test",
-//                        sectionName: "test section"
-//                    )
-                    
-                    /*
-                     the list view is going to take  in the type of flavor that is the chip array twice
-                     then it will take in the name of the jelly
-                     and last the color of the jelly
-                     */
+                                                             
+                    ForEach(sectionWiseFlavours) { section in
+                        
+                        // i will first make the header
+                        Text(section.category) 
+                            .font(.system(size: 13))
+                            .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
+                        /// now i need to work with the individual list part
+                        HStack {
+                            
+                            
+                            VStack(alignment: .leading) {
+                                
+                                ForEach(section.flavours, id: \.self) { individualFlavor in
+                                    ZStack {
+                                        Group {
+                                            Ellipse()
+                                                .fill(.red)
+                                                .frame(width: 32, height: 20)
+                                            Ellipse()
+                                                .fill(.white.opacity(0.7))
+                                                .frame(width: 10, height: 5)
+                                                .padding(.bottom, 10)
+                                        }
+                                        .rotationEffect(Angle(degrees: -35))
+                                    }
+                                    
+                                    Text(individualFlavor)
+                                        .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8 : Color.c_1C1418)
+                                    Text(section.category)
+                                        .font(.system(size: 12))
+                                        .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "star.fill")
+                                .foregroundStyle(.yellow)
+                        }
+                        
+                    }
                 }
             }
             .scrollIndicators(.hidden)
@@ -166,38 +194,28 @@ extension FlavoursView {
                     .fill(colorScheme == .dark ? Color.c_FDF6EC : Color.c_1C1418)
             }
     }
-    
-    func sectionListView(
-        cherryColor: Color,
-        cherryName: String,
-        sectionName: String
-    ) -> some View {
-        Group {
-            VStack {
-                individualListDetails(jellyColor: cherryColor, cherryName: cherryName, cherrySectionName: sectionName)
-                Divider()
-                    .background {
-                        colorScheme == .dark ? Color.c_F7F1E8.opacity(0.1) : Color.c_1C1418.opacity(0.09)
-                    }
-            }
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
-            }
-        }
-    }
-    
+        
     func individualListDetails(
         jellyColor: Color,
-        cherryName: String,
+        cherryName: [String],
         cherrySectionName: String
     ) -> some View {
         HStack {
-            jellyView(jellyColor: jellyColor)
+            ZStack {
+                Group {
+                    Ellipse()
+                        .fill(jellyColor)
+                        .frame(width: 32, height: 20)
+                    Ellipse()
+                        .fill(.white.opacity(0.7))
+                        .frame(width: 10, height: 5)
+                        .padding(.bottom, 10)
+                }
+                .rotationEffect(Angle(degrees: -35))
+            }
             
             VStack(alignment: .leading) {
-                Text(cherryName)
+                Text(cherryName.description)
                     .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8 : Color.c_1C1418)
                 Text(cherrySectionName)
                     .font(.system(size: 12))
@@ -212,20 +230,9 @@ extension FlavoursView {
     }
     
     // the left side jelly that we have view
-    func jellyView(jellyColor: Color) ->  some View {
-        ZStack {
-            Group {
-                Ellipse()
-                    .fill(jellyColor)
-                    .frame(width: 32, height: 20)
-                Ellipse()
-                    .fill(.white.opacity(0.7))
-                    .frame(width: 10, height: 5)
-                    .padding(.bottom, 10)
-            }
-            .rotationEffect(Angle(degrees: -35))
-        }
-    }
+//    func jellyView(jellyColor: Color) ->  some View {
+//        
+//    }
 }
 
 #Preview {
