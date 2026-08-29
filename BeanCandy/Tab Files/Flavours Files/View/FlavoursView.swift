@@ -74,16 +74,15 @@ struct FlavoursView: View {
                     ForEach(sectionWiseFlavours) { section in
                         
                         // i will first make the header
-                        Text(section.category) 
+                        Text(section.category)
                             .font(.system(size: 13))
                             .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
                         /// now i need to work with the individual list part
-                        HStack {
+                        VStack(alignment: .leading, spacing: 12) {
                             
-                            
-                            VStack(alignment: .leading) {
-                                
-                                ForEach(section.flavours, id: \.self) { individualFlavor in
+                            ForEach(Array(section.flavours.enumerated()), id: \.offset) { index, individualFlavor in
+                                HStack {
+                                    // the colored pill
                                     ZStack {
                                         Group {
                                             Ellipse()
@@ -96,24 +95,38 @@ struct FlavoursView: View {
                                         }
                                         .rotationEffect(Angle(degrees: -35))
                                     }
-                                    
-                                    Text(individualFlavor)
-                                        .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8 : Color.c_1C1418)
-                                    Text(section.category)
-                                        .font(.system(size: 12))
-                                        .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
+                                    // the title and the subtitle
+                                    VStack(alignment: .leading) {
+                                        Text(individualFlavor)
+                                            .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8 : Color.c_1C1418)
+                                        Text(section.category)
+                                            .font(.system(size: 12))
+                                            .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
+                                    }
+                                    Spacer()
+                                    // the star
+                                    Image(systemName: "star.fill")
+                                        .foregroundStyle(.yellow)
                                 }
+                                
+                                Divider()
+                                    .background {
+                                        colorScheme == .dark ? Color.c_F7F1E8.opacity(0.09) : Color.c_1C1418.opacity(0.1)
+                                    }
+                                    .opacity(index == section.flavours.count - 1 ? 0 : 1)
+                                    
                             }
-                            
-                            Spacer()
-                            
-                            Image(systemName: "star.fill")
-                                .foregroundStyle(.yellow)
+                        }
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
                         }
                         
                     }
                 }
             }
+            .padding()
             .scrollIndicators(.hidden)
         }
     }
