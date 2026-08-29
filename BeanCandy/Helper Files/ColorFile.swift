@@ -42,8 +42,30 @@ extension Color {
     static let c_FF6B6F = Color(hex: "FF6B6F") // dark mode
         
     
-    // jellys
-    static let cherryJelly = Color(hex: "#E0343C")
-    static let tangerineJelly = Color(hex: "#F5872E")
-    static let appleJelly = Color(hex: "#63B33B")
+    // jellys and their colored names
+    /// Fruit
+    static let veryCherryJelly          = Color(hex: "#E0343C")
+    static let juicyPearJelly           = Color(hex: "#C8D94B")
+    static let blueberryJelly           = Color(hex: "#4A63B5")
+    static let greenAppleJelly          = Color(hex: "#63B33B")
+    static let watermelonJelly          = Color(hex: "#F0576F")
+    static let berryBlueJelly           = Color(hex: "#2E6FD9")
+    static let topBananaJelly           = Color(hex: "#F2D14A")
+    
+    /// Citrus
+    static let tangerineJelly           = Color(hex: "#F5872E")
+    static let lemonDropJelly           = Color(hex: "#F2E24A")
+    
+    /// Sweet
+    static let butteredPopcornJelly     = Color(hex: "#F5D23B")
+    static let toastedMarshmellowJelly  = Color(hex: "#EBD6BC")
+    static let coconutJelly             = Color(hex: "#FAF3EA")
+    static let cottonCandyJelly         = Color(hex: "#F09BD1")
+    
+    /// Spice
+    static let sizzlingCinnamonJelly    = Color(hex: "#C62828")
+    static let licoriceJelly            = Color(hex: "#2A2226")
+    
+    /// Soda
+    static let rootBeerJelly            = Color(hex: "#7B4A2A")
 }

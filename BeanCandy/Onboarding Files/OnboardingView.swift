@@ -137,9 +137,9 @@ enum OnboardingPage: Int, CaseIterable {
     
     var PillColor: Color {
         switch self {
-        case .CherryColor : Color.cherryJelly
+        case .CherryColor : Color.veryCherryJelly
         case .OrangeColor: Color.tangerineJelly
-        case .GreenColor : Color.appleJelly
+        case .GreenColor : Color.greenAppleJelly
         }
     }
     
