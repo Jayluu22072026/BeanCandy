@@ -9,11 +9,13 @@ import SwiftUI
 
 struct CustomTabView: View {
     @State var selectedIndex: Int = 0
+    @State var beansViewModel: BeansViewModel = BeansViewModel()
     var body: some View {
         TabView(selection: $selectedIndex) {
             Tab("Flavors", systemImage: "house", value: 0) {
                 NavigationStack{
                     FlavoursView()
+                        .environment(beansViewModel)
                 }
             }
             

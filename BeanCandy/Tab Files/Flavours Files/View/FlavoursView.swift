@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FlavoursView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(BeansViewModel.self) var beansViewModel
     @State var searchText: String = ""
     
     let sectionWiseFlavours: [FlavourSection] = [
@@ -49,15 +50,25 @@ struct FlavoursView: View {
                     flavourTitle
                     
                     searchBarView
-                    
-                    filterChipsView
                                                              
-                    listSectionView
+                    if beansViewModel.isLoading {
+                        ProgressView()
+                    } else if let errorMessage = beansViewModel.errorMessage {
+                        Text(errorMessage)
+                            .foregroundStyle(.red)
+                            .font(.title)
+                    } else {
+                        listSectionView
+                    }
                     
                 }
             }
             .padding()
             .scrollIndicators(.hidden)
+            .navigationBarBackButtonHidden()
+        }
+        .task {
+            await beansViewModel.loadBeans()
         }
     }
 }
@@ -93,20 +104,6 @@ extension FlavoursView {
         }
     }
     
-    /// i need to verify from the functions how to match the selected chip
-    var filterChipsView: some View {
-        ScrollView(.horizontal){
-            HStack {
-                filterChip(chipName: "All")
-                filterChip(chipName: "Favourites")
-                ForEach(sectionWiseFlavours) { value in
-                    filterChip(chipName: value.category)
-                }
-            }
-        }
-        .scrollIndicators(.hidden)
-    }
-    
     /// every section header is put in here
     var sectionTitleView: some View {
         ForEach(sectionWiseFlavours) { section in
@@ -118,54 +115,41 @@ extension FlavoursView {
     
     /// every section's jelly's are put in here
     var listSectionView: some View {
-        ForEach(sectionWiseFlavours) { section in
-            
-            Text(section.category)
-                .font(.system(size: 13))
-                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
-            
-            VStack(alignment: .leading, spacing: 12) {
-                ForEach(Array(section.flavours.enumerated()), id: \.offset) { index, individualFlavor in
-                    HStack {
-                        ZStack {
-                            Group {
-                                Ellipse()
-                                    .fill(individualFlavor.value)
-                                    .frame(width: 32, height: 20)
-                                Ellipse()
-                                    .fill(.white.opacity(0.7))
-                                    .frame(width: 10, height: 5)
-                                    .padding(.bottom, 10)
+        ForEach(beansViewModel.beans, id: \.self) { bean in
+            NavigationLink {
+                FlavourDetailView(beansViewModel: bean)
+            } label: {
+                VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            ZStack {
+                                Group {
+                                    Ellipse()
+                                        .fill(Color(hex: "\(bean.backgroundColor)"))
+                                        .frame(width: 32, height: 20)
+                                    Ellipse()
+                                        .fill(.white.opacity(0.7))
+                                        .frame(width: 10, height: 5)
+                                        .padding(.bottom, 10)
+                                }
+                                .rotationEffect(Angle(degrees: -35))
                             }
-                            .rotationEffect(Angle(degrees: -35))
-                        }
-                        // the title and the subtitle
-                        VStack(alignment: .leading) {
-                            Text(individualFlavor.key)
-                                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8 : Color.c_1C1418)
-                            Text(section.category)
-                                .font(.system(size: 12))
-                                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
-                        }
-                        Spacer()
-                        // the star
-                        Image(systemName: "star.fill")
-                            .foregroundStyle(.yellow)
-                    }
-                    .padding(.horizontal)
-                    
-                    if index != section.flavours.count - 1 {
-                        Divider()
-                            .background {
-                                colorScheme == .dark ? Color.c_F7F1E8.opacity(0.09) : Color.c_1C1418.opacity(0.1)
+                            // the title and the subtitle
+                            VStack(alignment: .leading) {
+                                Text(bean.flavorName)
+                                    .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8 : Color.c_1C1418)
                             }
-                    }
+                            Spacer()
+                            // the star
+                            Image(systemName: "star.fill")
+                                .foregroundStyle(.yellow)
+                        }
+                        .padding(.horizontal)
                 }
-            }
-            .padding(.vertical)
-            .background {
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
+                .padding(.vertical)
+                .background {
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
+                }
             }
         }
     }
@@ -200,5 +184,6 @@ extension FlavoursView {
 #Preview {
 //    FlavoursView()
     CustomTabView()
+        .environment(BeansViewModel())
 }
 

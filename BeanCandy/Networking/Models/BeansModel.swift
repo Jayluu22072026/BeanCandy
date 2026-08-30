@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct BeansModel: Codable, Identifiable {
-    var id = UUID()
+struct BeansModel: Codable {
+//    var id = UUID()
     let totalCount: Int
     let pageSize: Int
     let currentPage: Int
     let totalPages: Int
     let items: [Beans]
     
-    struct Beans: Codable {
+    struct Beans: Codable, Hashable {
         let beanId: Int
         let groupName: [String]
         let ingredients: [String]

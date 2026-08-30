@@ -24,6 +24,9 @@ class BeansViewModel {
         
         do {
             beans = try await fetchBeans(url : testUrl)
+        } catch let error as DecodingError {
+            print(error)
+            errorMessage = "\(error)"
         } catch {
             errorMessage = error.localizedDescription
         }
