@@ -26,6 +26,7 @@ struct FlavourDetailView: View {
                     ingredientsView
                 }
             }
+            .scrollIndicators(.hidden)
             .padding()
         }
     }
