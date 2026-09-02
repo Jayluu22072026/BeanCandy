@@ -44,7 +44,7 @@ extension ComboView {
     
     var comboDescription: some View {
         Text("Two beans, one new flavour. Tap a card for the mixing ratio.")
-            .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.8) : Color.c_1C1418.opacity(0.78))
+            .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.66) : Color.c_1C1418.opacity(0.6))
             .font(.system(size: 18))
     }
     
@@ -57,42 +57,48 @@ extension ComboView {
     }
     
     var gridCellView: some View {
-        RoundedRectangle(cornerRadius: 18)
-            .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
-            .frame(height: 150)
-            .overlay {
-                VStack(alignment: .leading) {
-                    ZStack {
-                            Group {
-                                Ellipse()
-                                    .fill(Color.red)
-                                    .frame(width: 32, height: 20)
-                                Ellipse()
-                                    .fill(.white.opacity(0.7))
-                                    .frame(width: 10, height: 5)
-                                    .padding(.top, 20)
-                                    
-                            }
-                            .rotationEffect(Angle(degrees: -35))
-                            .offset(x: -10)
-                            Group {
-                                Ellipse()
-                                    .fill(Color.blue)
-                                    .frame(width: 32, height: 20)
-                                Ellipse()
-                                    .fill(.white.opacity(0.7))
-                                    .frame(width: 10, height: 5)
-                                    .padding(.bottom, 10)
-                            }
-                            .rotationEffect(Angle(degrees: 35))
-                            .offset(x: 10)
-                    }
-                    
-                    Text("Combo Name")
-                    Text("Jelly1 + Jelly2")
-                        .font(.system(size: 12))
+        VStack(alignment: .leading) {
+            ZStack {
+                Group {
+                    Ellipse()
+                        .fill(Color.red)
+                        .frame(width: 32, height: 20)
+                    Ellipse()
+                        .fill(.white.opacity(0.7))
+                        .frame(width: 10, height: 5)
+                        .padding(.bottom, 10)
                 }
+                .rotationEffect(Angle(degrees: -35))
+                .offset(x: -10)
+                Group {
+                    Ellipse()
+                        .fill(Color.blue)
+                        .frame(width: 32, height: 20)
+                    Ellipse()
+                        .fill(.white.opacity(0.7))
+                        .frame(width: 10, height: 5)
+                        .padding(.bottom, 10)
+                }
+                .rotationEffect(Angle(degrees: 35))
+                .offset(x: 10)
             }
+            .offset(x: 10)
+            
+            Text("Combo Name")
+                .fontWeight(.semibold)
+                .font(.system(size: 18))
+            Text("Jelly1 + Jelly2")
+                .font(.system(size: 12))
+                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
+        }
+        .offset(x: -10)
+        .frame(maxWidth: .infinity)
+        .frame(height: 150)
+        .background {
+            RoundedRectangle(cornerRadius: 18)
+                .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
+        }
+        
     }
     
 }
