@@ -27,6 +27,8 @@ struct RecipeDetailView : View {
                     jellyStep
                 }
             }
+            .scrollIndicators(.hidden)
+            .padding()
         }
     }
 }
@@ -46,11 +48,11 @@ extension RecipeDetailView {
                 ZStack {
                     Group {
                         Ellipse()
-                            .fill(Color.red)
-                            .frame(width: 32, height: 20)
+                            .fill(Color.blue)
+                            .frame(width: 67, height: 47)
                         Ellipse()
                             .fill(.white.opacity(0.7))
-                            .frame(width: 10, height: 5)
+                            .frame(width: 15, height: 7)
                             .padding(.bottom, 10)
                     }
                     .rotationEffect(Angle(degrees: -35))
@@ -73,7 +75,10 @@ extension RecipeDetailView {
     
     var jellyIngred : some View {
         Group {
-            Text("Ingredients")
+            Text("INGREDIENTS")
+                .fontWeight(.semibold)
+                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.45) : Color.c_1C1418.opacity(0.5))
+            
             VStack(alignment: .leading) {
                 Text("I1")
                 Divider()
@@ -93,9 +98,12 @@ extension RecipeDetailView {
     
     var jellyStep : some View {
         Group {
-            Text("Steps")
+            Text("STEPS")
+                .fontWeight(.semibold)
+                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.45) : Color.c_1C1418.opacity(0.5))
             HStack{
                 Text("1")
+                    .fontWeight(.semibold)
                     .foregroundStyle(Color.c_FFFFFF)
                     .padding(10)
                     .background {
@@ -107,6 +115,7 @@ extension RecipeDetailView {
                     .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.8) : Color.c_1C1418.opacity(0.78))
             }
             .padding(.vertical, 4)
+            .padding(.horizontal)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background {
                 RoundedRectangle(cornerRadius: 12)
