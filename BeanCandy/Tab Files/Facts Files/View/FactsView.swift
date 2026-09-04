@@ -15,6 +15,7 @@ struct FactsView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     factsTitle
+                    
                     factInfo
                     
                     VStack(alignment: .leading, spacing: 10){
@@ -41,8 +42,6 @@ struct FactsView: View {
                                     .padding(.leading, 6)
                             }
                         }
-                    
-                    
                 }
             }
             .scrollIndicators(.hidden)
