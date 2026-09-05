@@ -10,17 +10,20 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(\.colorScheme) var colorScheme
     var colorSet : [Color] = [.red, .orange, .brown, .green, .teal, .blue, .indigo, .purple]
+    @State var mode: Bool = false
+    @State var sugarFree: Bool = false
+    
     var body: some View {
         ZStack {
             Color(colorScheme == .dark ? Color.c_12100F : Color.c_F2EDE4).ignoresSafeArea()
-            ScrollView {
-                VStack(alignment: .leading) {
-                    profileTitle
-                    
-                    userDetail
-                    
-                    
-                }
+            VStack(alignment: .leading) {
+                profileTitle
+                
+                userDetail
+                Spacer()
+                appSettings
+                signOUTbutton
+                Spacer()
             }
         }
     }
@@ -60,13 +63,44 @@ extension ProfileView {
     var appSettings: some View {
         Group {
             Text("SETTINGS")
-            
+                .fontWeight(.semibold)
+                .foregroundStyle(colorScheme == .dark ? Color.c_F7F1E8.opacity(0.5) : Color.c_1C1418.opacity(0.45))
             VStack {
                 HStack {
                     Text("App Mode")
-                    
+                    Spacer()
+                    Toggle("", isOn: $mode)
+                        .labelsHidden()
+                }
+                Divider()
+                HStack {
+                    Text("Sugar free only")
+                    Spacer()
+                    Toggle("", isOn: $sugarFree)
+                        .labelsHidden()
                 }
             }
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
+            }
+        }
+    }
+    
+    var signOUTbutton: some View {
+        Button {
+            
+        } label: {
+            Text("SIGN OUT")
+                .foregroundStyle(.red)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background {
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(colorScheme == .dark ? Color.c_1E1B19 : Color.c_FFFFFF)
+                        
+                }
         }
     }
 }
