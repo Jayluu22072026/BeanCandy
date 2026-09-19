@@ -9,6 +9,9 @@ import SwiftUI
 
 struct SigninView : View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(AuthenticationManager.self) var auth
+    @State private var appleProvider = AppleSignInProvider()
+    @State private var googleProvider = GoogleSignInProvider()
     @State var completeOnboarding: Bool = false
     var body: some View {
         ZStack {
@@ -116,11 +119,34 @@ extension SigninView {
 // MARK: Logic
 extension SigninView {
     func appleButtonLogic() {
-        completeOnboarding = true
+        Task {
+            do {
+                // Run the whole Apple flow. On success this returns a UserAuth,
+                // AND Firebase's state listener in AuthenticationManager has
+                // already fired — so auth.user is set too.
+                _ = try await appleProvider.signIn()
+                // Sign-in worked → move into the app.
+                completeOnboarding = true
+            } catch AuthError.failLogin {
+                // User cancelled or Apple failed — do nothing, stay on screen.
+            } catch {
+                // Any other error → surface it via the manager for an alert later.
+                auth.error = .firebase(error.localizedDescription)
+            }
+        }
     }
     
     func googleButtonLogic() {
-        completeOnboarding = true
+        Task {
+            do {
+                _ = try await googleProvider.signIn()
+                completeOnboarding = true
+            } catch AuthError.failLogin {
+                // User cancelled — stay on screen.
+            } catch {
+                auth.error = .firebase(error.localizedDescription)
+            }
+        }
     }
     
     func guestButtonLogic() {
@@ -130,4 +156,5 @@ extension SigninView {
 
 #Preview {
     SigninView()
+        .environment(AuthenticationManager())
 }
